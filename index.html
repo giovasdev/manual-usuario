@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manual de Usuario del Sistema de Gestión de Inventarios — guía rápida, capturas, roles y procedimientos.">
+    <meta name="theme-color" content="#003366">
+    <title>Manual de Usuario - Sistema de Gestión de Inventarios</title>
+    <style>
+        /* Accesibilidad: enlace para saltar al contenido */
+        .skip-link {
+            position: absolute;
+            left: -999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .skip-link:focus {
+            left: 10px;
+            top: 10px;
+            width: auto;
+            height: auto;
+            background: #003366;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            z-index: 2000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Header con gradiente animado */
+        header {
+            background: linear-gradient(135deg, #003366 0%, #0066cc 50%, #0099ff 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Partículas decorativas en el header */
+        header::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: particleMove 20s linear infinite;
+        }
+
+        @keyframes particleMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Navigation con efecto glassmorphism */
+        nav[role="navigation"] {
+            background: rgba(0, 34, 68, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        nav ul li:hover {
+            transform: translateY(-3px);
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        nav ul li a:hover::before {
+            left: 100%;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background: #0066cc;
+            outline: none;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section mejorado */
+        .hero {
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 102, 153, 0.9)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23003366" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #f4f4f4);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            animation: slideInLeft 1s ease 0.5s both;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: slideInRight 1s ease 0.7s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ff6600, #ff8833);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.4);
+            animation: pulse 2s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ff8833, #ffaa55);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.6);
+            animation: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 20px;
+        }
+
+        /* Section con animación de entrada */
+        section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background: linear-gradient(to bottom, #0066cc, #00ccff);
+            transition: height 0.6s ease 0.3s;
+        }
+
+        section.visible::before {
+            height: 100%;
+        }
+
+        section:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+
+        section h2 {
+            color: #003366;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #00ccff;
+            transition: width 0.6s ease;
+        }
+
+        section.visible h2::after {
+            width: 100%;
+        }
+
+        section h3 {
+            color: #0066cc;
+            font-size: 1.6rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        /* Features Grid con animación escalonada */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f9f9f9, #ffffff);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: scale(0.9);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,102,204,0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scale(1);
+        }
+
+        section.visible .feature-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .feature-card:nth-child(1) { transition-delay: 0.1s; }
+        .feature-card:nth-child(2) { transition-delay: 0.2s; }
+        .feature-card:nth-child(3) { transition-delay: 0.3s; }
+        .feature-card:nth-child(4) { transition-delay: 0.4s; }
+        .feature-card:nth-child(5) { transition-delay: 0.5s; }
+        .feature-card:nth-child(6) { transition-delay: 0.6s; }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(0,102,204,0.3);
+        }
+
+        .feature-card h4 {
+            color: #003366;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Screenshots Gallery mejorado */
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .screenshot-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        section.visible .screenshot-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .screenshot-item::after {
+            content: '🔍';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 3rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .screenshot-item:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.8;
+        }
+
+        .screenshot-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: zoom-in;
+            transition: all 0.4s ease;
+        }
+
+        .screenshot-item:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .screenshot-item figcaption {
+            text-align: center;
+            color: #003366;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Modules Section */
+        .modules-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e9e9e9 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 5px solid #0066cc;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateX(-30px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        section.visible .module-card {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,102,204,0.1), transparent);
+            transition: right 0.6s ease;
+        }
+
+        .module-card:hover::before {
+            right: 100%;
+        }
+
+        .module-card:hover {
+            transform: translateX(10px);
+            border-left-width: 8px;
+            box-shadow: 0 5px 20px rgba(0,102,204,0.2);
+        }
+
+        .module-card h4 {
+            color: #003366;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        /* Steps con animación */
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            margin: 1.5rem 0;
+            padding-left: 4rem;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s ease;
+        }
+
+        section.visible .steps li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .steps li:nth-child(1) { transition-delay: 0.1s; }
+        .steps li:nth-child(2) { transition-delay: 0.2s; }
+        .steps li:nth-child(3) { transition-delay: 0.3s; }
+        .steps li:nth-child(4) { transition-delay: 0.4s; }
+        .steps li:nth-child(5) { transition-delay: 0.5s; }
+        .steps li:nth-child(6) { transition-delay: 0.6s; }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, #0066cc, #00ccff);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(0,102,204,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .steps li:hover::before {
+            transform: rotate(360deg) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,102,204,0.5);
+        }
+
+        /* Highlight Box mejorado */
+        .highlight-box {
+            background: linear-gradient(135deg, #e6f2ff, #f0f8ff);
+            border-left: 5px solid #0066cc;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,102,204,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: pulse 2s ease infinite;
+        }
+
+        .highlight-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,102,204,0.2);
+        }
+
+        .highlight-box strong {
+            color: #003366;
+        }
+
+        /* Table mejorado */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        table th {
+            background: linear-gradient(135deg, #003366, #0066cc);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        table tr {
+            transition: all 0.3s ease;
+        }
+
+        table tr:hover {
+            background: linear-gradient(90deg, #f0f8ff, #ffffff);
+            transform: scale(1.01);
+        }
+
+        /* Footer mejorado */
+        footer {
+            background: linear-gradient(135deg, #002244, #003366);
+            color: white;
+            text-align: center;
+            padding: 3rem 20px;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0066cc, #00ccff, #0066cc);
+            background-size: 200% 100%;
+            animation: gradientMove 3s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        footer p {
+            margin: 0.8rem 0;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        footer p:nth-child(1) { animation-delay: 0.2s; }
+        footer p:nth-child(2) { animation-delay: 0.4s; }
+        footer p:nth-child(3) { animation-delay: 0.6s; }
+        footer p:nth-child(4) { animation-delay: 0.8s; }
+
+        /* Modal mejorado */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            overflow: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal[aria-hidden="false"] {
+            display: block;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            animation: zoomIn 0.4s ease forwards;
+            outline: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        @keyframes zoomIn {
+            to {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 50px;
+            font-weight: bold;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            background: rgba(255,0,0,0.7);
+            transform: rotate(90deg) scale(1.1);
+            outline: none;
+        }
+
+        .modal-caption {
+            text-align: center;
+            color: #fff;
+            padding: 15px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            background: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            max-width: 80%;
+        }
+
+        /* Botón scroll to top */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #0066cc, #00ccff);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(0,102,204,0.4);
+            z-index: 999;
+            border: none;
+            font-size: 1.5rem;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(0,102,204,0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 5px 0;
+            }
+
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .steps li {
+                padding-left: 3rem;
+            }
+
+            .steps li::before {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Efecto de carga */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #003366, #0066cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeOut 1s ease 1.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <a class="skip-link" href="#inicio">Saltar al contenido</a>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>📘 Manual de Usuario</h1>
+            <p>Sistema de Gestión de Inventarios</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav role="navigation" aria-label="Navegación principal">
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#caracteristicas">Características</a></li>
+            <li><a href="#acceso">Acceso</a></li>
+            <li><a href="#modulos">Módulos</a></li>
+            <li><a href="#capturas">Capturas</a></li>
+            <li><a href="#guia">Guía de Uso</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero" id="inicio">
+        <div class="hero-content">
+            <h2>Bienvenido al Manual de Usuario</h2>
+            <p>Aprende a utilizar todas las funcionalidades del Sistema de Gestión de Inventarios de manera fácil y efectiva</p>
+            <a href="#acceso" class="btn">Comenzar Ahora</a>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Introducción -->
+        <section id="introduccion">
+            <h2>📖 Introducción</h2>
+            <p>El Sistema de Gestión de Inventarios es una aplicación web desarrollada para la administración integral de productos de seguridad electrónica. Este manual proporciona una guía completa para utilizar todas las funcionalidades del sistema de manera eficiente.</p>
+            
+            <div class="highlight-box">
+                <strong>Versión:</strong> 1.0.0<br>
+                <strong>Fecha:</strong> Octubre 2025<br>
+                <strong>Tecnología:</strong> AdminLTE Framework
+            </div>
+        </section>
+
+        <!-- Características -->
+        <section id="caracteristicas">
+            <h2>✨ Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>🎨 Interfaz Moderna</h4>
+                    <p>Diseño responsive basado en AdminLTE, accesible desde cualquier dispositivo</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔒 Seguridad</h4>
+                    <p>Sistema de autenticación robusto con soporte para Google OAuth</p>
+                </div>
+                <div class="feature-card">
+                    <h4>👥 Gestión de Roles</h4>
+                    <p>Control de permisos granular según el rol del usuario</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📊 Dashboard Interactivo</h4>
+                    <p>Estadísticas en tiempo real con gráficos visuales</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📦 Control de Inventario</h4>
+                    <p>Registro detallado de movimientos de entrada y salida</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📍 Gestión de Ubicaciones</h4>
+                    <p>Control de almacenes y ubicaciones de productos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Acceso al Sistema -->
+        <section id="acceso">
+            <h2>🔐 Acceso al Sistema</h2>
+            
+            <h3>Inicio de Sesión</h3>
+            <figure class="screenshot-item">
+                <img class="zoomable" src="/img/Login.png" alt="Pantalla de inicio de sesión" loading="lazy" tabindex="0">
+                <figcaption>Pantalla de inicio de sesión</figcaption>
+            </figure>
+            
+            <ul class="steps">
+                <li>Acceda a la URL del sistema proporcionada por su organización</li>
+                <li>Ingrese su correo electrónico en el campo correspondiente</li>
+                <li>Ingrese su contraseña</li>
+                <li>Complete la verificación reCAPTCHA</li>
+                <li>Haga clic en el botón "Iniciar Sesión"</li>
+            </ul>
+
+            <h3>Registro de Usuarios</h3>
+            <figure class="screenshot-item">
+                <img class="zoomable" src="/img/registro.png" alt="Formulario de registro de nuevos usuarios" loading="lazy" tabindex="0">
+                <figcaption>Formulario de registro de nuevos usuarios</figcaption>
+            </figure>
+
+            <div class="highlight-box">
+                <strong>NOTA IMPORTANTE:</strong> El sistema implementa medidas de seguridad. Después de varios intentos fallidos, la cuenta puede ser bloqueada temporalmente.
+            </div>
+        </section>
+
+        <!-- Módulos del Sistema -->
+        <section id="modulos">
+            <h2>🧩 Módulos del Sistema</h2>
+            
+            <figure class="screenshot-item">
+                <img class="zoomable" src="/img/menu.png" alt="Menú de navegación del sistema" loading="lazy" tabindex="0">
+                <figcaption>Panel de navegación del sistema</figcaption>
+            </figure>
+
+            <div class="modules-list">
+                <div class="module-card">
+                    <h4>📊 Dashboard</h4>
+                    <p>Panel de control con estadísticas generales, gráficos de movimientos y distribución de stock por categoría.</p>
+                </div>
+                <div class="module-card">
+                    <h4>👔 Roles</h4>
+                    <p>Gestión de roles y permisos del sistema. Permite crear, editar y eliminar roles de usuario.</p>
+                </div>
+                <div class="module-card">
+                    <h4>👥 Empleados</h4>
+                    <p>Administración de usuarios del sistema. Control de información personal y asignación de roles.</p>
+                </div>
+                <div class="module-card">
+                    <h4>📦 Movimientos</h4>
+                    <p>Registro de entradas y salidas de productos. Trazabilidad completa de operaciones.</p>
+                </div>
+                <div class="module-card">
+                    <h4>📋 Inventario Actual</h4>
+                    <p>Consulta del estado actual del inventario en tiempo real por ubicación.</p>
+                </div>
+                <div class="module-card">
+                    <h4>📍 Ubicaciones</h4>
+                    <p>Control de almacenes y ubicaciones físicas de los productos.</p>
+                </div>
+            </div>
+
+            <h3>Dashboard - Panel de Control</h3>
+            <figure class="screenshot-item">
+                <img class="zoomable" src="/img/dashboard.png" alt="Vista del Dashboard con estadísticas" loading="lazy" tabindex="0">
+                <figcaption>Vista del Dashboard con estadísticas en tiempo real</figcaption>
+            </figure>
+        </section>
+
+        <!-- Capturas de Pantalla -->
+        <section id="capturas">
+            <h2>📸 Capturas de Pantalla del Sistema</h2>
+            
+            <h3>Gestión de Roles</h3>
+            <div class="screenshots-grid">
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/roles.png" alt="Lista de roles del sistema" loading="lazy" tabindex="0">
+                    <figcaption>Lista de roles del sistema</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/agregar rol.png" alt="Formulario para agregar nuevo rol" loading="lazy" tabindex="0">
+                    <figcaption>Formulario para agregar nuevo rol</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/editar rol.png" alt="Formulario para editar rol existente" loading="lazy" tabindex="0">
+                    <figcaption>Formulario para editar rol existente</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/eliminar rol.png" alt="Confirmación para eliminar rol" loading="lazy" tabindex="0">
+                    <figcaption>Confirmación para eliminar rol</figcaption>
+                </figure>
+            </div>
+
+            <h3>Gestión de Empleados</h3>
+            <div class="screenshots-grid">
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/empleados.png" alt="Lista de empleados registrados" loading="lazy" tabindex="0">
+                    <figcaption>Lista de empleados registrados</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/agregar empleado.png" alt="Formulario para agregar empleado" loading="lazy" tabindex="0">
+                    <figcaption>Formulario para agregar empleado</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/editar empleado.png" alt="Formulario para editar empleado" loading="lazy" tabindex="0">
+                    <figcaption>Formulario para editar empleado</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/eliminar empleado.png" alt="Confirmación para eliminar empleado" loading="lazy" tabindex="0">
+                    <figcaption>Confirmación para eliminar empleado</figcaption>
+                </figure>
+            </div>
+
+            <h3>Gestión de Movimientos</h3>
+            <div class="screenshots-grid">
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/movimientos.png" alt="Registro de movimientos de inventario" loading="lazy" tabindex="0">
+                    <figcaption>Registro de movimientos de inventario</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/agregar movimiento.png" alt="Formulario para registrar movimiento" loading="lazy" tabindex="0">
+                    <figcaption>Formulario para registrar movimiento</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/editar movimiento.png" alt="Formulario para editar movimiento" loading="lazy" tabindex="0">
+                    <figcaption>Formulario para editar movimiento</figcaption>
+                </figure>
+                <figure class="screenshot-item">
+                    <img class="zoomable" src="/img/eliminar movimiento.png" alt="Confirmación para eliminar movimiento" loading="lazy" tabindex="0">
+                    <figcaption>Confirmación para eliminar movimiento</figcaption>
+                </figure>
+            </div>
+
+            <h3>Inventario Actual</h3>
+            <figure class="screenshot-item">
+                <img class="zoomable" src="/img/inventario actual.png" alt="Vista del inventario actual por ubicación" loading="lazy" tabindex="0">
+                <figcaption>Vista del inventario actual por ubicación</figcaption>
+            </figure>
+        </section>
+
+        <!-- Guía de Uso -->
+        <section id="guia">
+            <h2>📚 Guía de Uso Rápida</h2>
+            
+            <h3>Cómo Gestionar Roles</h3>
+            <ul class="steps">
+                <li>Navegue a Menú > Roles</li>
+                <li>Haga clic en "Agregar Rol" para crear uno nuevo</li>
+                <li>Complete el formulario con nombre y descripción</li>
+                <li>Haga clic en "Guardar"</li>
+                <li>Use los botones "Editar" o "Eliminar" para modificar roles existentes</li>
+            </ul>
+
+            <h3>Cómo Gestionar Empleados</h3>
+            <ul class="steps">
+                <li>Navegue a Menú > Empleados</li>
+                <li>Haga clic en "Agregar Empleado"</li>
+                <li>Complete: Nombre, Correo, Teléfono y Rol</li>
+                <li>Haga clic en "Guardar"</li>
+                <li>Use "Editar" o "Eliminar" según necesite</li>
+            </ul>
+
+            <h3>Cómo Registrar Movimientos</h3>
+            <ul class="steps">
+                <li>Navegue a Menú > Movimientos</li>
+                <li>Haga clic en "Agregar Movimiento"</li>
+                <li>Seleccione: Producto, Ubicación, Empleado</li>
+                <li>Elija el tipo: Entrada o Salida</li>
+                <li>Ingrese la cantidad</li>
+                <li>Haga clic en "Guardar"</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>CONSEJO:</strong> Siempre verifique el inventario actual antes de registrar una salida para asegurar que haya stock disponible.
+            </div>
+        </section>
+
+        <!-- Roles y Permisos -->
+        <section id="roles-permisos">
+            <h2>🔑 Roles y Permisos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rol</th>
+                        <th>Descripción</th>
+                        <th>Permisos Principales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Administrador</strong></td>
+                        <td>Control total del sistema</td>
+                        <td>Gestiona todo el sistema y permisos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Almacenista</strong></td>
+                        <td>Gestión de inventario</td>
+                        <td>Controla entradas y salidas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Auditor</strong></td>
+                        <td>Supervisión y reportes</td>
+                        <td>Revisa movimientos (solo lectura)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Técnico</strong></td>
+                        <td>Instalaciones</td>
+                        <td>Registra salidas para instalaciones</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Supervisor</strong></td>
+                        <td>Supervisión operativa</td>
+                        <td>Supervisa operaciones de almacén</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contador</strong></td>
+                        <td>Gestión financiera</td>
+                        <td>Gestiona costos y reportes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Preguntas Frecuentes -->
+        <section id="faq">
+            <h2>❓ Preguntas Frecuentes</h2>
+            
+            <h3>¿Qué hago si olvidé mi contraseña?</h3>
+            <p>Contacte al administrador del sistema para restablecerla.</p>
+
+            <h3>¿Por qué no puedo eliminar un movimiento?</h3>
+            <p>Solo los administradores pueden eliminar movimientos para mantener la integridad del inventario.</p>
+
+            <h3>¿Cómo sé si un producto tiene stock bajo?</h3>
+            <p>El Dashboard muestra un indicador "Stock Bajo" en rojo cuando los productos están por debajo del mínimo establecido.</p>
+
+            <h3>¿Puedo exportar los datos?</h3>
+            <p>Sí, las tablas incluyen opciones de exportación a diferentes formatos.</p>
+
+            <h3>¿El sistema funciona en dispositivos móviles?</h3>
+            <p>Sí, el sistema tiene diseño responsive y funciona perfectamente en tablets y smartphones.</p>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contacto">
+            <h2>📞 Soporte y Contacto</h2>
+            <p>Si necesita ayuda adicional o tiene preguntas sobre el sistema, puede contactar al equipo de soporte:</p>
+            
+            <div class="highlight-box">
+                <strong>Repositorio del Proyecto:</strong><br>
+                <a href="https://github.com/giovasdev/inventario_app.git" target="_blank" rel="noopener noreferrer">https://github.com/giovasdev/inventario_app.git</a><br><br>
+                
+                <strong>Documentación Técnica:</strong><br>
+                Consulte el manual de usuario completo en formato DOCX para información detallada.<br><br>
+                
+                <strong>Soporte Técnico:</strong><br>
+                Contacte al administrador del sistema de su organización.
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Modal para ampliar imágenes -->
+    <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <button class="close-modal" aria-label="Cerrar imagen">×</button>
+        <img class="modal-content" id="modalImage" alt="" tabindex="0">
+        <div class="modal-caption" id="modalCaption" aria-live="polite"></div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" aria-label="Volver arriba">↑</button>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Sistema de Gestión de Inventarios</strong></p>
+        <p>Versión 1.0.0 | Octubre 2025</p>
+        <p>Desarrollado con AdminLTE Framework</p>
+        <p>© 2025 Todos los derechos reservados by Andres Giovanny Vasco</p>
+    </footer>
+
+    <script>
+        // Intersection Observer para animaciones al hacer scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Modal de imágenes
+        (function() {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const caption = document.getElementById('modalCaption');
+            const closeBtn = modal.querySelector('.close-modal');
+            let lastFocused = null;
+
+            function openModal(img) {
+                lastFocused = document.activeElement;
+                modal.setAttribute('aria-hidden', 'false');
+                modalImg.src = img.src;
+                modalImg.alt = img.alt || '';
+                caption.textContent = img.alt || '';
+                closeBtn.focus();
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.setAttribute('aria-hidden', 'true');
+                modalImg.src = '';
+                caption.textContent = '';
+                document.body.style.overflow = '';
+                if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+            }
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal || e.target === closeBtn) closeModal();
+            });
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+                    closeModal();
+                }
+            });
+
+            const zoomables = document.querySelectorAll('.zoomable');
+            zoomables.forEach(function(img) {
+                img.addEventListener('click', function(e) {
+                    openModal(img);
+                });
+                img.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openModal(img);
+                    }
+                });
+            });
+
+            closeBtn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    closeModal();
+                }
+            });
+
+            modal.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab' && modal.getAttribute('aria-hidden') === 'false') {
+                    const focusables = [closeBtn, modalImg].filter(Boolean);
+                    const idx = focusables.indexOf(document.activeElement);
+                    if (e.shiftKey) {
+                        const prev = focusables[(idx - 1 + focusables.length) % focusables.length];
+                        prev.focus();
+                    } else {
+                        const next = focusables[(idx + 1) % focusables.length];
+                        next.focus();
+                    }
+                    e.preventDefault();
+                }
+            });
+        })();
+
+        // Scroll to top button
+        const scrollTopBtn = document.querySelector('.scroll-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Navegación suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Efecto de navegación al hacer scroll
+        const nav = document.querySelector('nav[role="navigation"]');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
+
+</body>
+</html>
